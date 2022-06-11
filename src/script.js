@@ -119,6 +119,7 @@ const clock = new THREE.Clock()
 
 const tick = () =>
 {
+    
     const elapsedTime = clock.getElapsedTime()
     // animate the objects
     for(const mesh of sectionMeshes){
