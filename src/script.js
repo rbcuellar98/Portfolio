@@ -1,9 +1,15 @@
 import './style.css'
 import * as THREE from 'three'
 
+
+/**Color debug palets */
+//const gui = new dat.GUI()
+
 const parameters = {
     materialColor: '#ffeded'
 }
+
+//gui.addColor(parameters, 'materialColor').onChange(() => {material.color.set(parameters.materialColor)})
 
 /**
  * Base
@@ -17,9 +23,19 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
+// Texture
+const textureLoader = new THREE.TextureLoader()
+const gradientTexture = textureLoader.load('textures/gradients/3.jpg')
+gradientTexture.magFilter = THREE.NearestFilter // take the nearest light intensity
 // material for better performance used across all 3 objects
-const material = new THREE.MeshToonMaterial({color: parameters.materialColor})
-
+const material = new THREE.MeshToonMaterial({
+    color: parameters.materialColor,
+    gradientMap: gradientTexture
+})
+/**
+ * Objects with material and size
+ */
+const objectsDistance = 4
 // first object with parameter dimension
 const mesh1 = new THREE.Mesh(
     new THREE.TorusGeometry(1,0.4, 16, 60),
@@ -35,8 +51,16 @@ const mesh3 = new THREE.Mesh(
     new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
     material
 )
+// Positioning: moving
+mesh1.position.y = - objectsDistance * 0
+mesh2.position.y = - objectsDistance * 1
+mesh3.position.y = - objectsDistance * 2
+
+
 // add all 3 objects into the scene
 scene.add(mesh1,mesh2,mesh3)
+// add objects into the scenes
+const sectionMeshes = [mesh1, mesh2, mesh3]
 /**
  * Add Directional Lights to the scene 
  * Help see the material 
@@ -96,6 +120,11 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+    // animate the objects
+    for(const mesh of sectionMeshes){
+        mesh.rotation.x = elapsedTime * 0.1
+        mesh.rotation.x = elapsedTime * 0.12
+    }
 
     // Render
     renderer.render(scene, camera)
