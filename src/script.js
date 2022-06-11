@@ -1,7 +1,9 @@
 import './style.css'
 import * as THREE from 'three'
 
-
+const parameters = {
+    materialColor: '#ffeded'
+}
 
 /**
  * Base
@@ -13,13 +15,37 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Test cube
+ * Object
  */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: '#ff0000' })
+// material for better performance used across all 3 objects
+const material = new THREE.MeshToonMaterial({color: parameters.materialColor})
+
+// first object with parameter dimension
+const mesh1 = new THREE.Mesh(
+    new THREE.TorusGeometry(1,0.4, 16, 60),
+    material
 )
-scene.add(cube)
+// second object with parameter dimension
+const mesh2 = new THREE.Mesh(
+    new THREE.ConeGeometry(1,2,32),
+    material
+)
+// third object with parameter dimension
+const mesh3 = new THREE.Mesh(
+    new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
+    material
+)
+// add all 3 objects into the scene
+scene.add(mesh1,mesh2,mesh3)
+/**
+ * Add Directional Lights to the scene 
+ * Help see the material 
+ */
+const directionalLight = new THREE.DirectionalLight('#ffffff',1)
+// move the position of the light representative to the camera above right
+directionalLight.position.set(1,1,0)
+scene.add(directionalLight)
+
 
 /**
  * Sizes
