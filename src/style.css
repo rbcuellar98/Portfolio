@@ -21,6 +21,10 @@ body
     left: 0;
     outline: none;
 }
+#MP{
+   position: absolute;
+
+}
 
 
 .section
@@ -35,6 +39,37 @@ body
     font-size: 7vmin;
     padding-left: 10%;
     padding-right: 10%;
+}
+.me{
+    font-size: 15px;
+    padding-bottom: 60%;
+    padding-right: 30%;
+    
+}
+#description{
+    position: absolute;
+    padding-top: 7%;
+    padding-left: 0.5%;
+    font-size: 2vmin;
+    color: aqua;
+}
+.links{
+    position: absolute;
+    padding-top: 8%;
+    padding-left: 1%;
+    font-size: 2vmin;
+    color: aqua;
+    list-style-type: none;
+}
+
+a{
+    color: azure;
+    text-decoration: none;
+}
+li{
+    display: inline;
+    padding-right: 8%;
+    
 }
 
 section:nth-child(odd)
