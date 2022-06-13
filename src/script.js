@@ -36,7 +36,7 @@ const scene = new THREE.Scene()
  */
 // Texture
 const textureLoader = new THREE.TextureLoader()
-const gradientTexture = textureLoader.load('textures/gradients/3.jpg')
+const gradientTexture = textureLoader.load('textures/gradients/5.jpg')
 gradientTexture.magFilter = THREE.NearestFilter // take the nearest light intensity
 // material for better performance used across all 3 objects
 const material = new THREE.MeshToonMaterial({
@@ -49,7 +49,7 @@ const material = new THREE.MeshToonMaterial({
 const objectsDistance = 4
 // first object with parameter dimension
 const mesh1 = new THREE.Mesh(
-    new THREE.TorusGeometry(0.7,0.3, 16, 60),
+    new THREE.BoxGeometry(1,1, 1),
     material
 )
 // second object with parameter dimension
