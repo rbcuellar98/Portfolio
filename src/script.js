@@ -1,15 +1,25 @@
 import './style.css'
 import * as THREE from 'three'
+import * as dat from 'lil-gui'
 import gsap from 'gsap'
 
 
 
 /**Color debug palets */
-//const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 const parameters = {
     materialColor: '#ffeded'
 }
+
+// gui
+//     .addColor(parameters, 'materialColor')
+//     .onChange(() =>
+//     {
+//         material.color.set(parameters.materialColor)
+//         particlesMaterial.color.set(parameters.materialColor)
+//     })
+
 
 
 /**
@@ -39,30 +49,32 @@ const material = new THREE.MeshToonMaterial({
 const objectsDistance = 4
 // first object with parameter dimension
 const mesh1 = new THREE.Mesh(
-    new THREE.TorusGeometry(1,0.4, 16, 60),
+    new THREE.TorusGeometry(0.7,0.3, 16, 60),
     material
 )
 // second object with parameter dimension
 const mesh2 = new THREE.Mesh(
-    new THREE.ConeGeometry(1,2,32),
+    new THREE.ConeGeometry(0.7,1.5,32),
     material
 )
 // third object with parameter dimension
 const mesh3 = new THREE.Mesh(
-    new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
+    new THREE.SphereGeometry( 0.9, 15, 12 ),
     material
 )
+/**
+ * Position objects in the page according to the side wanted
+ */
+ mesh1.position.x = 2
+ mesh2.position.x = - 2
+ mesh3.position.x = 2
+ 
+
 // Positioning: moving
 mesh1.position.y = - objectsDistance * 0
 mesh2.position.y = - objectsDistance * 1
 mesh3.position.y = - objectsDistance * 2
 
-/**
- * Position objects in the page according to the side wanted
- */
-mesh1.position.x = 2
-mesh2.position.x = - 2
-mesh3.position.x = 2
 
 
 // add all 3 objects into the scene
@@ -191,32 +203,35 @@ window.addEventListener('mousemove', (event)=>{
 /**
  * Animate
  */
-const clock = new THREE.Clock()
-let previousTime = 0
-const tick = () =>
-{
-
-    const elapsedTime = clock.getElapsedTime()
-    const deltaTime = elapsedTime - previousTime
-    previousTime = elapsedTime
-    // Update the camera
-    camera.position.y = - scrollY / sizes.height * objectsDistance // to negate the value and divide by the sections on the page
-    const parallaxX = cursor.x * 0.5
-    const parallaxY = - cursor.y * 0.5
-    // cursor movement depending on mouse position
-    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
-    cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
-    // animate the objects
-    for(const mesh of sectionMeshes){
-        mesh.rotation.x = deltaTime * 0.1
-        mesh.rotation.x = deltaTime * 0.12
-    }
-
-    // Render
-    renderer.render(scene, camera)
-
-    // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
-}
-
-tick()
+ const clock = new THREE.Clock()
+ let previousTime = 0
+ 
+ const tick = () =>
+ {
+     const elapsedTime = clock.getElapsedTime()
+     const deltaTime = elapsedTime - previousTime
+     previousTime = elapsedTime
+ 
+     // Animate camera
+     camera.position.y = - scrollY / sizes.height * objectsDistance
+ 
+     const parallaxX = cursor.x * 0.5
+     const parallaxY = - cursor.y * 0.5
+     cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
+     cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
+ 
+     // Animate meshes
+     for(const mesh of sectionMeshes)
+     {
+         mesh.rotation.x += deltaTime * 0.1
+         mesh.rotation.y += deltaTime * 0.12
+     }
+ 
+     // Render
+     renderer.render(scene, camera)
+ 
+     // Call tick again on the next frame
+     window.requestAnimationFrame(tick)
+ }
+ 
+ tick()
